@@ -8,7 +8,7 @@ import './App.css';
 function App() {
   
   // Task State
-  const [toDo,setTodo] = useState([
+  const [toDo,setToDo] = useState([
     {"id": 1, "title" : " Task", "status": false},
     {"id": 2, "title" : " Task", "status": false}
   ])
@@ -23,13 +23,20 @@ function App() {
     if(newTask){
       let num = toDo.length + 1
       let newEntry = {id : num , title : newTask, status: false}
-      setTodo([...toDo, newEntry])
+      setToDo([...toDo, newEntry])
       setNewTask('')
     }
   }
 
   // Delete Task
   const deleteTask = (id) => {
+    let newTasks = toDo.filter(task => task.id !== id)
+    setToDo(newTasks)
+    //
+  }
+
+  //Update Task
+  const updateTask = () => {
     //
   }
 
@@ -45,11 +52,6 @@ function App() {
 
   // Change Task For Update
   const changeTask = () => {
-    //
-  }
-  
-  //Update Task
-  const updateTask = () => {
     //
   }
 
@@ -78,8 +80,8 @@ function App() {
         <input className="form-control form-control-lg" />
       </div>
     <div className="col-auto">
-      <button className="btn btn-lg btn-success mr-20">Update Task</button>
-      <button className="btn btn-lg btn-danger">Cancel</button>
+      <button className="btn btn-lg btn-success mr-20" onClick={updateTask}>Update Task</button>
+      <button className="btn btn-lg btn-danger" onClick={cancelUpdate}>Cancel</button>
     </div>
     </div>
     <br/>
@@ -99,16 +101,16 @@ function App() {
 
         <div className="iconsWrap">
 
-          <span title="Completed / Not Completed">
-            <FontAwesomeIcon icon={faCircleCheck} onClick={markDone}/>
+          <span title="Completed / Not Completed" onClick={markDone}>
+            <FontAwesomeIcon icon={faCircleCheck}/>
           </span>
 
-          <span title="Edit">
-            <FontAwesomeIcon icon={faPen} onClick={updateTask}/>
+          <span title="Edit" onClick={updateTask}>
+            <FontAwesomeIcon icon={faPen}/>
           </span>
 
-          <span title="Delete">
-            <FontAwesomeIcon icon={faTrashCan} onClick={deleteTask}/>
+          <span title="Delete" onClick={() => deleteTask(task.id)}>
+            <FontAwesomeIcon icon={faTrashCan}/>
           </span>
         </div>
 
