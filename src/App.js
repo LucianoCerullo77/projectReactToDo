@@ -18,8 +18,14 @@ function App() {
   const [updateData, setUpdateData] = useState('')
   
   // Add Task
-  const addTask = () => {
-    //
+  const addTask = (e) => {
+    e.preventDefault()
+    if(newTask){
+      let num = toDo.length + 1
+      let newEntry = {id : num , title : newTask, status: false}
+      setTodo([...toDo, newEntry])
+      setNewTask('')
+    }
   }
 
   // Delete Task
@@ -49,30 +55,63 @@ function App() {
 
   return (
     <div className="container App">
+    <br/>
     <h2>To Do List</h2>
+    <br/>
+
+    {/* Add task*/}
+
+    <div className="row">
+      <div className="col">
+        <input value={newTask} onChange={(e) => setNewTask(e.target.value)} className="form-control form-control-lg"/>
+      </div>
+      <div className="col-auto">
+        <button className="btn btn-lg btn-success" onClick={addTask}>Add Task</button>
+      </div>
+    </div>
+    <br/>
+
+    {/* Update task*/}
+
+    <div className="row">
+      <div className="col">
+        <input className="form-control form-control-lg" />
+      </div>
+    <div className="col-auto">
+      <button className="btn btn-lg btn-success mr-20">Update Task</button>
+      <button className="btn btn-lg btn-danger">Cancel</button>
+    </div>
+    </div>
+    <br/>
 
     {toDo && toDo.length ? '' : "No task . . ." }
 
-    {toDo && toDo.map((task, index) => {
+    {toDo && toDo
+    .sort((a,b) => a.id > b.id ? 1 : -1)
+    .map((task, index) => {
       return <React.Fragment key={task.id}>
 
       <div className="col taskBg">
-
         <div className={task.status ? 'done' : ''}>
           <span className="taskNumber">{index + 1}</span>
           <span className="taskText">{task.title}</span>
         </div>
+
         <div className="iconsWrap">
-          <span>
+
+          <span title="Completed / Not Completed">
             <FontAwesomeIcon icon={faCircleCheck} onClick={markDone}/>
           </span>
-          <span>
+
+          <span title="Edit">
             <FontAwesomeIcon icon={faPen} onClick={updateTask}/>
           </span>
-          <span>
+
+          <span title="Delete">
             <FontAwesomeIcon icon={faTrashCan} onClick={deleteTask}/>
           </span>
         </div>
+
       </div>
       </React.Fragment>
     })}
