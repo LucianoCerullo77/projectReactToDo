@@ -30,8 +30,8 @@ function App() {
 
   // Delete Task
   const deleteTask = (id) => {
-    let newTasks = toDo.filter(task => task.id !== id)
-    setToDo(newTasks)
+    let deleteCurrent = toDo.filter(task => task.id !== id)
+    setToDo(deleteCurrent)
     //
   }
 
@@ -41,7 +41,14 @@ function App() {
   }
 
   // Mark Task
-  const markDone = () => {
+  const markDone = (id) => {
+    let marked = toDo.map(task => {
+      if(task.id === id) {
+        return ({...task, status: !task.status})
+      }
+      return task;
+    })
+    setToDo(marked)
     //
   }
 
@@ -65,7 +72,7 @@ function App() {
 
     <div className="row">
       <div className="col">
-        <input value={newTask} onChange={(e) => setNewTask(e.target.value)} className="form-control form-control-lg"/>
+        <input value={newTask} onChange={(e) => setNewTask(e.target.value)} className="form-control form-control-lg" placeholder="Add a new task"/>
       </div>
       <div className="col-auto">
         <button className="btn btn-lg btn-success" onClick={addTask}>Add Task</button>
@@ -77,7 +84,7 @@ function App() {
 
     <div className="row">
       <div className="col">
-        <input className="form-control form-control-lg" />
+        <input className="form-control form-control-lg" placeholder="Update current task" />
       </div>
     <div className="col-auto">
       <button className="btn btn-lg btn-success mr-20" onClick={updateTask}>Update Task</button>
@@ -101,13 +108,15 @@ function App() {
 
         <div className="iconsWrap">
 
-          <span title="Completed / Not Completed" onClick={markDone}>
+          <span title="Completed / Not Completed" onClick={(e) => markDone(task.id)}>
             <FontAwesomeIcon icon={faCircleCheck}/>
           </span>
 
-          <span title="Edit" onClick={updateTask}>
+          {task.status ? null : (
+            <span title="Edit" onClick={(e) => updateTask(task.id)}>
             <FontAwesomeIcon icon={faPen}/>
           </span>
+          )}
 
           <span title="Delete" onClick={() => deleteTask(task.id)}>
             <FontAwesomeIcon icon={faTrashCan}/>
