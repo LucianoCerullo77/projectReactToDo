@@ -8,10 +8,7 @@ import './App.css';
 function App() {
   
   // Task State
-  const [toDo,setToDo] = useState([
-    {"id": 1, "title" : " Task", "status": false},
-    {"id": 2, "title" : " Task", "status": false}
-  ])
+  const [toDo,setToDo] = useState([])
 
   // Temp State
   const [newTask, setNewTask] = useState('');
@@ -22,7 +19,10 @@ function App() {
     e.preventDefault()
     if(newTask){
       let num = toDo.length + 1
-      let newEntry = {id : num , title : newTask, status: false}
+      let newEntry = 
+      {id : num , 
+      title : newTask, 
+      status: false}
       setToDo([...toDo, newEntry])
       setNewTask('')
     }
@@ -73,7 +73,7 @@ function App() {
   return (
     <div className="container App">
     <br/>
-    <h2>To Do List</h2>
+    <h1>To Do List</h1>
     <br/>
 
     {/* Update task*/}
@@ -92,7 +92,10 @@ function App() {
       className="btn btn-lg btn-success mr-20"
       onClick={updateTask}
       >Update Task</button>
-      <button className="btn btn-lg btn-danger">Cancel</button>
+      <button 
+      className="btn btn-lg btn-danger"
+      onClick={cancelUpdate}
+      >Cancel</button>
     </div>
     </div>
     <br/>
@@ -116,7 +119,7 @@ function App() {
     </>
     )}
 
-    {toDo && toDo.length ? '' : "No task . . ." }
+    {toDo && toDo.length ? '' : <h2>Currently there's no tasks</h2> }
 
     {toDo && toDo
     .sort((a,b) => a.id > b.id ? 1 : -1)
