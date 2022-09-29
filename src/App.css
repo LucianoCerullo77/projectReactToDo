@@ -5,7 +5,7 @@
 }
 
 body {
-  background-color: #333;
+  background-color: rgb(204, 204, 204);
   color: #fff;
 }
 
@@ -14,11 +14,12 @@ body {
 }
 
 h2 {
+  color: rgb(59, 59, 59);
   text-align: center;
 }
 
 .taskNumber {
-  color: #999;
+  color: #fff;
   border: 1px solid #999;
   border-radius: 50%;
   width: 1.2rem;
@@ -32,7 +33,7 @@ h2 {
 }
 
 .taskBg {
-  background-color: #555;
+  background-color: rgb(59, 59, 59);
   border-radius: 0.2rem;
   margin-bottom: 1.2rem;
   padding: 0.8rem 9rem 0.8rem 0.9rem;

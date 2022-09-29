@@ -37,7 +37,25 @@ function App() {
 
   //Update Task
   const updateTask = () => {
-    //
+    let filterRecords = [...toDo].filter(task => task.id !== updateData.id)
+    let updatedObject = [...filterRecords, updateData]
+    setToDo(updatedObject);
+    setUpdateData('')
+  }
+
+  // Cancel Update
+  const cancelUpdate = () => {
+    setUpdateData("");
+  }
+
+  // Change Task For Update
+  const changeTask = (e) => {
+    let newEntry = {
+      id: updateData.id,
+      title: e.target.value,
+      status: updateData.status ? true : false,
+    }
+    setUpdateData(newEntry)
   }
 
   // Mark Task
@@ -52,46 +70,51 @@ function App() {
     //
   }
 
-  // Cancel Update
-  const cancelUpdate = () => {
-    //
-  }
-
-  // Change Task For Update
-  const changeTask = () => {
-    //
-  }
-
   return (
     <div className="container App">
     <br/>
     <h2>To Do List</h2>
     <br/>
 
-    {/* Add task*/}
+    {/* Update task*/}
+    {updateData && updateData ? (
+    <>
+    <div className="row">
+      <div className="col">
+        <input 
+        className="form-control form-control-lg" 
+        value={ updateData && updateData.title}
+        onChange={(e) => changeTask(e)}
+        placeholder="Update current task" />
+      </div>
+    <div className="col-auto">  
+      <button 
+      className="btn btn-lg btn-success mr-20"
+      onClick={updateTask}
+      >Update Task</button>
+      <button className="btn btn-lg btn-danger">Cancel</button>
+    </div>
+    </div>
+    <br/>
+    </>
+    ) : (
+    <>
+      {/* Add task*/}
 
     <div className="row">
       <div className="col">
-        <input value={newTask} onChange={(e) => setNewTask(e.target.value)} className="form-control form-control-lg" placeholder="Add a new task"/>
+        <input value={newTask} 
+        onChange={(e) => setNewTask(e.target.value)} 
+        className="form-control form-control-lg" 
+        placeholder="Add a new task"/>
       </div>
       <div className="col-auto">
         <button className="btn btn-lg btn-success" onClick={addTask}>Add Task</button>
       </div>
     </div>
     <br/>
-
-    {/* Update task*/}
-
-    <div className="row">
-      <div className="col">
-        <input className="form-control form-control-lg" placeholder="Update current task" />
-      </div>
-    <div className="col-auto">
-      <button className="btn btn-lg btn-success mr-20" onClick={updateTask}>Update Task</button>
-      <button className="btn btn-lg btn-danger" onClick={cancelUpdate}>Cancel</button>
-    </div>
-    </div>
-    <br/>
+    </>
+    )}
 
     {toDo && toDo.length ? '' : "No task . . ." }
 
@@ -113,7 +136,11 @@ function App() {
           </span>
 
           {task.status ? null : (
-            <span title="Edit" onClick={(e) => updateTask(task.id)}>
+            <span title="Edit" onClick={()=> {setUpdateData(
+              {id : task.id,
+              title: task.title,
+              status: task.status ? true : false}
+              )}}>
             <FontAwesomeIcon icon={faPen}/>
           </span>
           )}
